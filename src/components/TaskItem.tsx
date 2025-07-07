@@ -1,6 +1,19 @@
 import React from "react";
+import { Task } from "../types/types";
 
-const TaskItem = ({
+interface TaskItemProps {
+    task: Task;
+    index: number;
+    toggleTask: (index: number) => void;
+    deleteTask: (index: number) => void;
+    startEditing: (index: number, text: string) => void;
+    saveEditing: (index: number) => void;
+    editingIndex: number | null;
+    editingText: string;
+    setEditingText: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const TaskItem: React.FC<TaskItemProps> = ({
     task,
     index,
     toggleTask, 
@@ -11,7 +24,7 @@ const TaskItem = ({
     editingText,
     setEditingText,
 }) => {
-    const isEditing = editingIndex === indexedDB;
+    const isEditing = editingIndex === index;
 
     return (
         <li key={index} className={`task-item ${task.done ? "done" : ""}`}>

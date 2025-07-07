@@ -1,35 +1,27 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../src/App.css";
 
 
-import InputSection from "../components/InputSection";
-import FilterButtons from "../components/FilterButtons";
-import TaskList from "../components/TaskList";
-import ThemeToggle from "../components/ThemeToggle";
+import InputSection from "../src/components/InputSection";
+import FilterButtons from "../src/components/FilterButtons";
+import TaskList from "../src/components/TaskList";
+import ThemeToggle from "../src/components/ThemeToggle";
+import { Task } from "./types/types";
 
-//Главная функция-компонент
-function App() {
-  //загружаем задачи и тему из LocalStorage при старте
-  const [tasks, setTasks] = useState(() => {
+const App: React.FC = () => {
+  const [tasks, setTasks] = useState<Task[]>(() => {
    const saved = localStorage.getItem("tasks");
    return saved ? JSON.parse(saved) : []; 
   })
 
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light";
-  })
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+  const [input, setInput] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingText, setEditingText] = useState("");
   
   const darkMode = theme === "dark"
 
-  const [input, setInput] = useState("");
-  const [filter, setFilter] = useState("all");
-
-  //для редактирования задачи
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editingText, setEditingText] = useState("");
-
-
-  //сохраняем задачи и тему в LocalStorage при изменении
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -39,37 +31,34 @@ function App() {
     document.body.className = theme;
   }, [theme]);
 
-  //добавляем задачи
   const addTask = () => {
     if (input.trim()) {
-      setTasks([...tasks, {text: input, done: false}]); //добавляем задачу в массив
-      setInput(""); //очищаем поле
+      setTasks([...tasks, {text: input, done: false}]); 
+      setInput(""); 
     }
   };
 
-  //переключение выполнения
-  const toggleTask = (index) => {
+  const toggleTask = (index: number) => {
     const updated = [...tasks];
-    updated[index].done = !updated[index].done; //меняем флаг выполнено\не выполнено
+    updated[index].done = !updated[index].done; 
     setTasks(updated);
   };
 
-  //кнопка удаления
-  const deleteTask = (index) => {
+  const deleteTask = (index: number) => {
     const updated = [...tasks];
-    updated.splice(index, 1); //удаляем 1 элемент по индексу
+    updated.splice(index, 1); 
     setTasks(updated);
   }
 
   //редактирование
-  const startEditing = (index, text) => {
+  const startEditing = (index:number, text:string) => {
     setEditingIndex(index);
     setEditingText(text);
   }
 
 
  //сохранение редактирования
- const saveEditing = (index) => {
+ const saveEditing = (index: number) => {
   const updated = [...tasks];
   updated[index].text = editingText;
   setTasks(updated);
@@ -77,21 +66,18 @@ function App() {
   setEditingText("");
  }
 
-  //получени задач по фильтру
+  //получение задач по фильтру
   const filteredTasks = tasks.filter((tasks) => {
     if (filter === "active") return !tasks.done;
     if (filter === "completed") return tasks.done;
     return true;
   });
 
-  const totalCount = tasks.length;
   const activeCount = tasks.filter((task) => !task.done).length;
-  const completedCount = totalCount - activeCount;
 
-  //вернем JSX(интерфейс)
   return (
-    <div className={`App ${darkMode ? "dark" : "light"}`}>
-      <ThemeToggle darkMode={darkMode} setTheme={setTheme} />
+    <div className={`App ${theme === "dark" ? "dark" : "light"}`}>
+      <ThemeToggle darkMode={theme === "dark"} setTheme={setTheme} />
       <h1>Мои задачи</h1>
       <InputSection input={input} setInput={setInput} addTask={addTask} />
       <FilterButtons filter={filter} setFilter={setFilter} />

@@ -1,6 +1,10 @@
 import React from "react";
+interface ThemeToggleProps {
+    darkMode: boolean;
+    setTheme: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const ThemeToggle = ({ darkMode, setTheme}) => {
+const ThemeToggle: React.FC<ThemeToggleProps> = ({ darkMode, setTheme}) => {
     const toggleTheme = () => {
         setTheme(darkMode ? "light" : "dark");
     };
