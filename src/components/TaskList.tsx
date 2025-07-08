@@ -13,7 +13,7 @@ interface TaskListProps {
     setEditingText: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TaskList = ({
+const TaskList: React.FC<TaskListProps> = ({
     tasks,
     toggleTask, 
     deleteTask,
@@ -27,16 +27,16 @@ const TaskList = ({
         <ul className="task-list">
             {tasks.map((task, index) => (
                <TaskItem
-                key={index}
-                index={index}
-                task={task}
-                toggleTask={toggleTask} 
-                deleteTask={deleteTask}
-                startEditing={startEditing}
-                saveEditing={saveEditing}
-                editingIndex={editingIndex}
-                editingText={editingText}
-                setEditingText={setEditingText}
+                    key={index}
+                    index={index}
+                    task={task}
+                    toggleTask={toggleTask} 
+                    deleteTask={deleteTask}
+                    startEditing={startEditing}
+                    saveEditing={saveEditing}
+                    editingIndex={editingIndex}
+                    editingText={editingText}
+                    setEditingText={setEditingText}
                 />
             ))}
         </ul>

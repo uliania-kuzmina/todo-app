@@ -1,4 +1,5 @@
 import React from "react";
+import { ButtonField } from "../filds/ButtonField";
 
 interface FilterButtonsProps {
     filter: string;
@@ -8,9 +9,9 @@ interface FilterButtonsProps {
 const FilterButtons: React.FC<FilterButtonsProps> = ({filter, setFilter}) => {
  return (
     <div className="filters">
-        <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>Все</button>
-        <button className={filter === "active" ? "active" : ""} onClick={() => setFilter("active")}>Активные</button>
-        <button className={filter === "completed" ? "active" : ""} onClick={() => setFilter("completed")}>Выполненные</button>
+        <ButtonField name={filter === "all" ? "active" : ""} onClick={() => setFilter("all")} text="Все"/>
+        <ButtonField name={filter === "active" ? "active" : ""} onClick={() => setFilter("active")} text="Активные"/>
+        <ButtonField name={filter === "completed" ? "active" : ""} onClick={() => setFilter("completed")} text="Выполненные"/>
     </div>
  )
 }

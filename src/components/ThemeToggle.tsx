@@ -1,4 +1,5 @@
 import React from "react";
+import { ButtonField } from "../filds/ButtonField";
 interface ThemeToggleProps {
     darkMode: boolean;
     setTheme: React.Dispatch<React.SetStateAction<string>>;
@@ -10,9 +11,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ darkMode, setTheme}) => {
     };
 
     return (
-        <button className="theme-toggle" onClick={toggleTheme}>
-            {darkMode ? "Светлая тема" : "Темная тема"}
-        </button>
+        <ButtonField text={darkMode ? "Светлая тема" : "Темная тема"} name="theme-toggle" onClick={toggleTheme}/>
     )
 }
 
